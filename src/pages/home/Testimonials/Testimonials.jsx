@@ -13,7 +13,7 @@ const Testimonials = () => {
   const [reviews, setReviews] = useState([]);
   const { details, name, rating, _id } = reviews;
   console.log(reviews);
-  const url = "../../../../public/reviews.json";
+  const url = "http://localhost:5000/reviews";
   useEffect(() => {
     axios
       .get(url)

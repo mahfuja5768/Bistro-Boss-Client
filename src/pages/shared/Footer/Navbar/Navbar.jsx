@@ -5,8 +5,18 @@ const Navbar = () => {
   const navOptions = (
     <>
       <li>
+        <Link to="/">
+          <NavLink className="text-white ">Home</NavLink>
+        </Link>
+      </li>
+      <li className=" mx-7">
         <Link to="/menu">
-          <NavLink className="text-white ">Menu</NavLink>
+          <NavLink className="text-white">Menu</NavLink>
+        </Link>
+      </li>
+      <li>
+        <Link to="/order/salad">
+          <NavLink className="text-white ">Order</NavLink>
         </Link>
       </li>
     </>
@@ -38,7 +48,9 @@ const Navbar = () => {
             {navOptions}
           </ul>
         </div>
-     <Link to='/' className="btn btn-ghost normal-case text-xl">Bistro-Boss-Client</Link>
+        <Link to="/" className="btn btn-ghost normal-case text-xl">
+          Bistro-Boss-Client
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navOptions}</ul>
