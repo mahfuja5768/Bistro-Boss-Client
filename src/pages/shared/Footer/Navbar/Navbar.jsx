@@ -1,22 +1,41 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import useAuth from "../../../../hooks/useAuth";
+import Swal from "sweetalert2";
+import { FaCartShopping } from "react-icons/fa6";
+
 
 const Navbar = () => {
+  const { user, logOut } = useAuth();
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        Swal.fire({
+          title: "Success!",
+          text: "Successfully log out!",
+          icon: "success",
+          confirmButtonText: "Done",
+        });
+      })
+      .catch((err) => console.log(err));
+  };
   const navOptions = (
     <>
       <li>
-        <Link to="/">
-          <NavLink className="text-white ">Home</NavLink>
-        </Link>
+        <Link to="/">Home</Link>
       </li>
-      <li className=" mx-7">
-        <Link to="/menu">
-          <NavLink className="text-white">Menu</NavLink>
-        </Link>
+      <li className=" lg:mx-7">
+        <Link to="/menu">Menu</Link>
       </li>
       <li>
-        <Link to="/order/salad">
-          <NavLink className="text-white ">Order</NavLink>
+        <Link to="/order/salad">Order</Link>
+      </li>
+      <li>
+        <Link to="/">
+          <button className="btn">
+           <FaCartShopping></FaCartShopping>
+            <div className="badge badge-secondary">+0</div>
+          </button>
         </Link>
       </li>
     </>
@@ -43,7 +62,7 @@ const Navbar = () => {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-sm items-start dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             {navOptions}
           </ul>
@@ -53,10 +72,26 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">{navOptions}</ul>
+        <ul className="menu menu-horizontal items-center px-1">{navOptions}</ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        {user ? (
+          <div className="flex flex-row-reverse items-center justify-between gap-3">
+            <Link to="/login">
+              <button onClick={handleLogout} className="btn btn-info">
+                Logout
+              </button>
+            </Link>
+
+            <p className="text-2xl font-bold">
+              {user?.displayName ? user?.displayName : user?.email}
+            </p>
+          </div>
+        ) : (
+          <Link to="/login">
+            <button className="btn btn-info">Login</button>
+          </Link>
+        )}
       </div>
     </div>
   );

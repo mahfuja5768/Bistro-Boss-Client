@@ -13,9 +13,9 @@ import Category from "./../../home/Category/Category";
 const Order = () => {
   const { category } = useParams();
   const categories = ["salad", "pizza", "soup", "dessert", "drinks"];
-  const initialIndex = categories.indexOf(category)
+  const initialIndex = categories.indexOf(category);
   const [tabIndex, setTabIndex] = useState(initialIndex);
-  console.log(initialIndex);
+  // console.log(initialIndex);
   // setTabIndex(category)
   const [menu] = useMenu();
   const dessertItems = menu.filter((menu) => menu.category === "dessert");
@@ -38,7 +38,7 @@ const Order = () => {
       <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
         <TabList>
           {categories.map((item) => (
-            <Tab>{item}</Tab>
+            <Tab key={item}>{item}</Tab>
           ))}
         </TabList>
         <TabPanel>

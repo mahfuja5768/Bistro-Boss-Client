@@ -2,16 +2,10 @@ import { Link } from "react-router-dom";
 import Cover from "../../shared/Cover/Cover";
 import MenuItem from "../../shared/MenuItem/MenuItem";
 
-const MenuCategory = ({ img, items, title, subTitle}) => {
+const MenuCategory = ({ img, items, title, subTitle }) => {
   return (
     <div>
-      {title && (
-        <Cover
-          img={img}
-          title={title}
-          subTitle={subTitle}
-        ></Cover>
-      )}
+      {title && <Cover img={img} title={title} subTitle={subTitle}></Cover>}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {items?.map((item) => (
           <MenuItem key={item._id} item={item}></MenuItem>
