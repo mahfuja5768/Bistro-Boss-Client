@@ -8,6 +8,7 @@ import useAuth from "../../hooks/useAuth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
 
 const Login = () => {
   const [disable, setDisable] = useState(true);
@@ -99,7 +100,7 @@ const Login = () => {
                 name="captcha"
                 placeholder="type the captcha above"
                 className="input input-bordered"
-                required
+              
               />
             </div>
 
@@ -116,14 +117,17 @@ const Login = () => {
             </label>
 
             <div className="form-control mt-6">
+              {/* TODO: appy disable for re captcha */}
               <input
-                disabled={disable}
+                // disabled={disable}
+                disabled={false}
                 className="btn btn-primary"
                 type="submit"
                 value="Login"
               />
             </div>
           </form>
+          <SocialLogin></SocialLogin>
         </div>
       </div>
     </div>

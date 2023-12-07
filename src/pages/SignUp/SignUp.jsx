@@ -3,33 +3,53 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const SignUp = () => {
   const { createUser, updateUserProfile, logOut } = useAuth();
   const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
   const onSubmit = (data) => {
     console.log(data);
     createUser(data.email, data.password).then((res) => {
       const user = res.user;
       updateUserProfile(data.name, data.photoURL)
-        .then(() => console.log("user info updated"))
+        .then(() => {
+          console.log("user info updated");
+          //save the user
+          const userInfo = {
+            name: data.name,
+            email: data.email,
+          };
+          axiosPublic
+            .post("/users", userInfo)
+            .then((res) => {
+              console.log(res.data);
+              if (res.data.insertedId) {
+                reset();
+                Swal.fire({
+                  title: "Success!",
+                  text: "Successfully user created!",
+                  icon: "success",
+                  confirmButtonText: "Done",
+                });
+                // sign up korar por name, profile ase na seta thekate ....
+                logOut().then(() => {
+                  navigate("/login");
+                });
+              }
+            })
+
+            .catch((e) => console.log(e));
+        })
+
         .catch((e) => console.log(e));
-      console.log(user);
-      Swal.fire({
-        title: "Success!",
-        text: "Successfully user created!",
-        icon: "success",
-        confirmButtonText: "Done",
-      });
-      //sign er korar por name ase na seta thekate ....
-      logOut().then(() => {
-        navigate("/login");
-      });
     });
   };
 
@@ -38,7 +58,7 @@ const SignUp = () => {
       <Helmet>
         <title>Bistro-Boss | Sign up</title>
       </Helmet>
-      <h1 className="text-5xl font-bold flex justify-center items-center ">
+      <h1 className="text-5xl font-bold flex justify-center items-center pt-24">
         Sign up now!
       </h1>
       <div className="hero min-h-screen">
@@ -176,9 +196,10 @@ const SignUp = () => {
                 />
               </div>
             </form>
+          
           </div>
         </div>
-      </div>{" "}
+      </div>
     </div>
   );
 };

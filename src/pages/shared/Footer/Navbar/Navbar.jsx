@@ -3,10 +3,16 @@ import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { FaCartShopping } from "react-icons/fa6";
+import useCart from "../../../../hooks/useCart";
+import useAdmin from "../../../../hooks/useAdmin";
 
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  const [cart] = useCart()
+  const [isAdmin]=useAdmin()
+  // console.log(cart)
+
   const handleLogout = () => {
     logOut()
       .then(() => {
@@ -30,18 +36,31 @@ const Navbar = () => {
       <li>
         <Link to="/order/salad">Order</Link>
       </li>
+      {
+        user && isAdmin &&  <li>
+        <Link to="/dashboard/adminHome">Dashboard</Link>
+      </li>
+      }
+      {
+        user && !isAdmin &&  <li>
+        <Link to="/dashboard/userHome">Dashboard</Link>
+      </li>
+      }
       <li>
-        <Link to="/">
-          <button className="btn">
-           <FaCartShopping></FaCartShopping>
-            <div className="badge badge-secondary">+0</div>
+        <Link to="/dashboard/cart">
+          <button className="btn btn-outline rounded-full">
+           <FaCartShopping className="text-white"></FaCartShopping>
+            <div className="badge badge-secondary">+{cart.length}</div>
           </button>
         </Link>
+      </li>
+      <li>
+        <Link to="/signup">Sign up</Link>
       </li>
     </>
   );
   return (
-    <div className="navbar fixed z-10 h-[90px] bg-black bg-opacity-50 max-w-screen-xl mx-auto text-white">
+    <div className="navbar fixed z-10 h-[90px] bg-black bg-opacity-60 max-w-screen-xl mx-auto text-white">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -82,10 +101,13 @@ const Navbar = () => {
                 Logout
               </button>
             </Link>
-
+            
             <p className="text-2xl font-bold">
               {user?.displayName ? user?.displayName : user?.email}
             </p>
+            {
+              user.photoURL ? <img src={user.photoURL} className="w-16 h-16 rounded-full" alt="" /> : ""
+            }
           </div>
         ) : (
           <Link to="/login">

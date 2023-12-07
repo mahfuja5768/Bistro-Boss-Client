@@ -12,8 +12,8 @@ import { Rating } from "@smastrom/react-rating";
 const Testimonials = () => {
   const [reviews, setReviews] = useState([]);
   const { details, name, rating, _id } = reviews;
-  console.log(reviews);
-  const url = "http://localhost:5000/reviews";
+  // console.log(reviews);
+  const url = "https://bistro-boss-server-swart-sigma.vercel.app/reviews";
   useEffect(() => {
     axios
       .get(url)
@@ -36,7 +36,8 @@ const Testimonials = () => {
             <div className="m-12 flex justify-center items-center flex-col space-y-4">
               <Rating
                 style={{ maxWidth: 180 }}
-                value={review.rating} readonly
+                value={review.rating}
+                readonly
               />
               <p className="py-6">{review.details}</p>
               <h2 className="text-[#CD9003] text-center text-3xl">
